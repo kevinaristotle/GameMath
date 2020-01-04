@@ -77,11 +77,25 @@ Vector3f vector3f_nomalized(Vector3f v) {
     return normalized;
 }
 
+Vector3f vector3f_cross(Vector3f a, Vector3f b) {
+    Vector3f c = {
+        a.y * b.z - a.z * b.y,
+        a.z * b.x - a.x * b.z,
+        a.x * b.y - a.y * b.x
+    };
+
+    return c;
+}
+
 Vector3f vector3f_lerp(Vector3f start, Vector3f end, float amount) {
     Vector3f start_portion = vector3f_mul(start, 1.0f - amount);
     Vector3f end_portion = vector3f_mul(end, amount);
 
     return vector3f_add(start_portion, end_portion);
+}
+
+int vector3f_is_unit(Vector3f v) {
+    return vector3f_length(v) == 1.0f;
 }
 
 #endif
