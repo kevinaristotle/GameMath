@@ -2,10 +2,15 @@
 #define GAMEMATH_VECTOR_H
 
 #include <math.h>
+#include "matrix.h"
 
 typedef struct {
     float x, y, z;
 } Vector3f;
+
+typedef struct {
+    float x, y, z, w;
+} Vector4f;
 
 Vector3f vector3f_add(Vector3f v1, Vector3f v2) {
     Vector3f sum = {
@@ -96,6 +101,26 @@ Vector3f vector3f_lerp(Vector3f start, Vector3f end, float amount) {
 
 int vector3f_is_unit(Vector3f v) {
     return vector3f_length(v) == 1.0f;
+}
+
+Vector4f vector4f_mul(Vector4f v, float scalar) {
+    Vector4f scaled = {
+        v.x * scalar,
+        v.y * scalar,
+        v.z * scalar,
+        v.w * scalar
+    };
+
+    return scaled;
+}
+
+Vector4f vector4f_mul_matrix4x4(Vector4f v, Matrix4x4 m) {
+    Vector4f o;
+    o.x = v.x * m.m[0][0] + v.y * m.m[1][0] + v.z * m.m[2][0] + v.w * m.m[3][0];
+    o.y = v.x * m.m[0][1] + v.y * m.m[1][1] + v.z * m.m[2][1] + v.w * m.m[3][1];
+    o.z = v.x * m.m[0][2] + v.y * m.m[1][2] + v.z * m.m[2][2] + v.w * m.m[3][2];
+    o.w = v.x * m.m[0][3] + v.y * m.m[1][3] + v.z * m.m[2][3] + v.w * m.m[3][3];
+    return o;
 }
 
 #endif
